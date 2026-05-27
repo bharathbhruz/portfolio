@@ -64,20 +64,30 @@
 
 
 	var onePageClick = function() {
-
-
 		$(document).on('click', '#ftco-nav a[href^="#"]', function (event) {
-	    event.preventDefault();
+			var href = $.attr(this, 'href');
+			var $target = $(href);
 
-	    var href = $.attr(this, 'href');
+			if (!$target.length) {
+				return;
+			}
 
-	    $('html, body').animate({
-	        scrollTop: $($.attr(this, 'href')).offset().top - 70
-	    }, 500, function() {
-	    	// window.location.hash = href;
-	    });
+			event.preventDefault();
+
+			$('.navbar-collapse').collapse('hide');
+			$('.js-fh5co-nav-toggle').removeClass('active');
+
+			window.scrollTo({
+				top: Math.max($target.offset().top - 86, 0),
+				behavior: 'smooth'
+			});
+
+			if (history.pushState) {
+				history.pushState(null, null, href);
+			} else {
+				window.location.hash = href;
+			}
 		});
-
 	};
 
 	onePageClick();
@@ -85,8 +95,8 @@
 
 	var carousel = function() {
 		$('.home-slider').owlCarousel({
-	    loop:true,
-	    autoplay: true,
+	    loop:false,
+	    autoplay: false,
 	    margin:0,
 	    animateOut: 'fadeOut',
 	    animateIn: 'fadeIn',
@@ -274,4 +284,82 @@
 
 
 })(jQuery);
+
+(function() {
+  "use strict";
+
+  var typingAnimationElement = document.getElementById("typing-animation");
+  var typingTexts = ["DATA ANALYST", "AI ENGINEER"];
+
+  if (typingAnimationElement) {
+    var typingTextIndex = 0;
+    var typingCharIndex = 0;
+    var isDeleting = false;
+
+    var runTypingAnimation = function() {
+      var currentText = typingTexts[typingTextIndex];
+
+      typingAnimationElement.textContent = isDeleting
+        ? currentText.substring(0, typingCharIndex - 1)
+        : currentText.substring(0, typingCharIndex + 1);
+
+      typingCharIndex = isDeleting ? typingCharIndex - 1 : typingCharIndex + 1;
+
+      if (!isDeleting && typingCharIndex === currentText.length) {
+        isDeleting = true;
+        window.setTimeout(runTypingAnimation, 1100);
+        return;
+      }
+
+      if (isDeleting && typingCharIndex === 0) {
+        isDeleting = false;
+        typingTextIndex = (typingTextIndex + 1) % typingTexts.length;
+      }
+
+      window.setTimeout(runTypingAnimation, isDeleting ? 55 : 115);
+    };
+
+    runTypingAnimation();
+  }
+
+  var revealTargets = document.querySelectorAll(
+    ".resume-wrap, .blog-entry, .contact-section .box, .block-18, .experience-card, .hero-proof-grid div"
+  );
+
+  if ("IntersectionObserver" in window) {
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16 });
+
+    revealTargets.forEach(function(target) {
+      target.classList.add("portfolio-reveal");
+      revealObserver.observe(target);
+    });
+  } else {
+    revealTargets.forEach(function(target) {
+      target.classList.add("is-visible");
+    });
+  }
+
+  var experienceCard = document.querySelector(".experience-card");
+  if (experienceCard && window.matchMedia("(pointer: fine)").matches) {
+    experienceCard.addEventListener("mousemove", function(event) {
+      var rect = experienceCard.getBoundingClientRect();
+      var x = event.clientX - rect.left;
+      var y = event.clientY - rect.top;
+      var rotateY = ((x / rect.width) - 0.5) * 5;
+      var rotateX = ((y / rect.height) - 0.5) * -5;
+      experienceCard.style.transform = "perspective(1100px) rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) translateY(-4px)";
+    });
+
+    experienceCard.addEventListener("mouseleave", function() {
+      experienceCard.style.transform = "";
+    });
+  }
+})();
 

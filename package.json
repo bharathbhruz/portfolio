@@ -1,0 +1,39 @@
+{
+  "name": "ui_protfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/tailwind.css -o ./css/tailwind.css --minify",
+    "dev": "serve . -l 4173",
+    "dev:css": "tailwindcss -i ./src/tailwind.css -o ./css/tailwind.css --watch",
+    "serve": "serve .",
+    "test": "npm run build:css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bharathbhruz/bharathbhruz.com.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/bharathbhruz/bharathbhruz.com/issues"
+  },
+  "homepage": "https://github.com/bharathbhruz/bharathbhruz.com#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.40.0",
+    "lucide-react": "^1.16.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "serve": "^14.2.6",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.0"
+  }
+}
