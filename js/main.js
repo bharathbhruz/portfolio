@@ -323,7 +323,7 @@
   }
 
   var revealTargets = document.querySelectorAll(
-    ".resume-wrap, .blog-entry, .contact-section .box, .block-18, .experience-card, .hero-proof-grid div"
+    ".resume-wrap, .blog-entry, .contact-section .box, .block-18, .experience-card, .skill-suite-card, .skills-core, .hero-proof-grid div"
   );
 
   if ("IntersectionObserver" in window) {
