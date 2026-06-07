@@ -8,10 +8,11 @@
   },
   "scripts": {
     "build:css": "tailwindcss -i ./src/tailwind.css -o ./css/tailwind.css --minify",
-    "dev": "serve . -l 4173",
+    "generate:resume": "node scripts/generate-resume-manifest.js",
+    "dev": "npm run generate:resume && serve . -l 4173",
     "dev:css": "tailwindcss -i ./src/tailwind.css -o ./css/tailwind.css --watch",
     "serve": "serve .",
-    "test": "npm run build:css"
+    "test": "npm run generate:resume && npm run build:css"
   },
   "repository": {
     "type": "git",

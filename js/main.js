@@ -322,6 +322,31 @@
     runTypingAnimation();
   }
 
+  var resumeDownloadLinks = document.querySelectorAll(".js-resume-download");
+
+  var downloadResume = function(pdfUrl, resumeFileName) {
+    var fileName = resumeFileName || decodeURIComponent(pdfUrl.split("/").pop().split("?")[0].split("#")[0]) || "Bharath-Resume.pdf";
+    var temporaryLink = document.createElement("a");
+    temporaryLink.href = pdfUrl;
+    temporaryLink.download = fileName;
+    document.body.appendChild(temporaryLink);
+    temporaryLink.click();
+    temporaryLink.remove();
+  };
+
+  resumeDownloadLinks.forEach(function(link) {
+    link.addEventListener("click", function(event) {
+      event.preventDefault();
+
+      if (!window.PORTFOLIO_RESUME_PDF || !window.PORTFOLIO_RESUME_PDF.href) {
+        window.alert("Resume PDF is not configured. Keep exactly one PDF file inside the resume folder, then restart npm run dev.");
+        return;
+      }
+
+      downloadResume(window.PORTFOLIO_RESUME_PDF.href, window.PORTFOLIO_RESUME_PDF.fileName);
+    });
+  });
+
   var revealTargets = document.querySelectorAll(
     ".resume-wrap, .blog-entry, .contact-section .box, .block-18, .experience-card, .skill-suite-card, .skills-core, .hero-proof-grid div"
   );
